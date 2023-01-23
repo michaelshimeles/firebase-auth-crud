@@ -7,10 +7,11 @@ import {
   Flex,
   Heading,
   HStack,
-  Input, Spinner, Text,
+  Input,
+  Spinner,
+  Text,
   VStack
 } from "@chakra-ui/react";
-import { signOut } from "firebase/auth";
 import { collection, doc, getDoc, setDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -104,77 +105,92 @@ const Todo: React.FC<TodoProps> = () => {
   };
 
   return (
-    <VStack mt="10rem" px="1rem">
-      <Card>
-        <CardHeader>
-          <Heading textAlign="center" size="md">
-            To-do list
-          </Heading>
-        </CardHeader>
-        <CardBody>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <HStack>
-              <Input {...register("todo", { required: true })} />
-              <Button type="submit">Add</Button>
-            </HStack>
-          </form>
-        </CardBody>
-      </Card>
+    <HStack justify="center" align="flex-start" gap="5rem">
+      <VStack mt="10rem" px="1rem">
+        <Card>
+          <CardHeader>
+            <Heading textAlign="center" size="md">
+              To-do list
+            </Heading>
+          </CardHeader>
+          <CardBody>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <HStack>
+                <Input {...register("todo", { required: true })} />
+                <Button type="submit">Add</Button>
+              </HStack>
+            </form>
+          </CardBody>
+        </Card>
 
-      {todoList ? (
-        todoList.map((todo: any, index: number) => {
-          return (
-            <Flex
-              key={index}
-              bgColor="blue.900"
-              px="1rem"
-              py="0.5rem"
-              rounded="0.5rem"
-              w="321px"
-              justify="space-between"
-              align="center"
-            >
-              {todo.done === true ? (
-                <Checkbox
-                  isChecked={todo.done}
-                  onChange={() => handleSelected(index)}
-                >
-                  <Text as="del">{todo.task}</Text>
-                </Checkbox>
-              ) : (
-                <Checkbox
-                  isChecked={todo.done}
-                  onChange={() => handleSelected(index)}
-                >
-                  <Text>{todo.task}</Text>
-                </Checkbox>
-              )}
-              <Button onClick={() => handleDelete(index)}>Delete</Button>
-            </Flex>
-          );
-        })
-      ) : (
-        <Spinner />
-      )}
-      <VStack pt="10rem">
-        <Button
-          w="100%"
-          onClick={() => {
-            signOut(auth)
-              .then(() => {
-                // Sign-out successful.
-                console.log("Successful Log");
-              })
-              .catch((error) => {
-                // An error happened.
-                console.log(error);
-              });
-          }}
-        >
-          Sign out
-        </Button>
+        {todoList ? (
+          todoList.map((todo: any, index: number) => {
+            return (
+              <>
+                {todo.done === false && (
+                  <Flex
+                    key={index}
+                    bgColor="blue.900"
+                    px="1rem"
+                    py="0.5rem"
+                    rounded="0.5rem"
+                    w="321px"
+                    justify="space-between"
+                    align="center"
+                  >
+                    <Checkbox
+                      isChecked={false}
+                      onChange={() => handleSelected(index)}
+                    >
+                      <Text>{todo.task}</Text>
+                    </Checkbox>
+                    <Button onClick={() => handleDelete(index)}>Delete</Button>
+                  </Flex>
+                )}
+              </>
+            );
+          })
+        ) : (
+          <Spinner />
+        )}
       </VStack>
-    </VStack>
+
+      <VStack w="321px">
+        <Heading fontSize="2xl" pt="10rem">
+          Completed
+        </Heading>
+        {todoList ? (
+          todoList.map((todo: any, index: number) => {
+            return (
+              <>
+                {todo.done === true && (
+                  <Flex
+                    key={index}
+                    bgColor="blue.900"
+                    px="1rem"
+                    py="0.5rem"
+                    rounded="0.5rem"
+                    w="321px"
+                    justify="space-between"
+                    align="center"
+                  >
+                    <Checkbox
+                      isChecked={true}
+                      onChange={() => handleSelected(index)}
+                    >
+                      <Text as="del">{todo.task}</Text>
+                    </Checkbox>
+                    <Button onClick={() => handleDelete(index)}>Delete</Button>
+                  </Flex>
+                )}
+              </>
+            );
+          })
+        ) : (
+          <Spinner />
+        )}
+      </VStack>
+    </HStack>
   );
 };
 
