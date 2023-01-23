@@ -43,7 +43,7 @@ const LoginForm: React.FC<LoginFormProps> = () => {
 
 
   return (
-    <Flex>
+    <Flex w="300px">
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormLabel pt="1rem">Email</FormLabel>
         <Input {...register("email", { required: true })} />

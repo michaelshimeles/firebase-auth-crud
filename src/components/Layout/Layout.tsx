@@ -8,7 +8,9 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <Flex direction="column" justify="center" align="center" w="100%">
-      <ColorModeSwitcher />
+      <Flex w="90%" justify="flex-end" align="center">
+        <ColorModeSwitcher />
+      </Flex>
       {children}
     </Flex>
   );

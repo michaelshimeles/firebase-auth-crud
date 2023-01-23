@@ -10,7 +10,7 @@ import {
   Input,
   Progress,
   Text,
-  VStack
+  VStack,
 } from "@chakra-ui/react";
 import { signOut } from "firebase/auth";
 import { collection, doc, getDoc, setDoc } from "firebase/firestore";
@@ -32,7 +32,6 @@ const Todo: React.FC<TodoProps> = () => {
   const [todoList, setTodoList] = useState<any>([]);
 
   const usersRef = collection(db, "users");
-
 
   // create's document
   useEffect(() => {
@@ -76,12 +75,13 @@ const Todo: React.FC<TodoProps> = () => {
     // create and add to database
     setDoc(doc(usersRef, user.uid), {
       tasks: [...todoList, newData],
-    }).then((resp) => {
-      setTodoList([...todoList, newData]);
-
-    }).catch(error => {
-      console.log(error)
     })
+      .then((resp) => {
+        setTodoList([...todoList, newData]);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
     // clears form field
     reset();
@@ -136,13 +136,15 @@ const Todo: React.FC<TodoProps> = () => {
               justify="space-between"
               align="center"
             >
-              <Checkbox onChange={() => handleSelected(index)}>
-                {todo.done === true ? (
+              {todo.done === true ? (
+                <Checkbox isChecked={todo.done} onChange={() => handleSelected(index)}>
                   <Text as="del">{todo.task}</Text>
-                ) : (
+                </Checkbox>
+              ) : (
+                <Checkbox isChecked={todo.done} onChange={() => handleSelected(index)}>
                   <Text>{todo.task}</Text>
-                )}
-              </Checkbox>
+                </Checkbox>
+              )}
               <Button onClick={() => handleDelete(index)}>Delete</Button>
             </Flex>
           );

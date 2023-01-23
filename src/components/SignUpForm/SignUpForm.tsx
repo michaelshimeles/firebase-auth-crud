@@ -47,7 +47,7 @@ const SignUpForm: React.FC<SignUpFormProps> = () => {
   }
 
   return (
-    <Flex>
+    <Flex w="300px">
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormLabel>First Name</FormLabel>
         <Input {...register("firstName", { required: true })} />

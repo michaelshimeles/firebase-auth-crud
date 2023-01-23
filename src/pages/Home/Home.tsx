@@ -14,6 +14,7 @@ import SignUpForm from "../../components/SignUpForm/SignUpForm";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../Firebase";
+// eslint-disable-next-line
 import { onAuthStateChanged } from "firebase/auth";
 
 interface HomeProps {}
@@ -30,15 +31,6 @@ const Home: React.FC<HomeProps> = () => {
       </Layout>
     );
   }
-
-  // onAuthStateChanged(auth, (currentUser) => {
-  //   navigate("/todo");
-  //   return (
-  //     <Layout>
-  //       <Progress isIndeterminate size="xs" />
-  //     </Layout>
-  //   );
-  // });
 
   return (
     <Layout>
