@@ -7,10 +7,8 @@ import {
   Flex,
   Heading,
   HStack,
-  Input,
-  Progress,
-  Text,
-  VStack,
+  Input, Spinner, Text,
+  VStack
 } from "@chakra-ui/react";
 import { signOut } from "firebase/auth";
 import { collection, doc, getDoc, setDoc } from "firebase/firestore";
@@ -60,7 +58,7 @@ const Todo: React.FC<TodoProps> = () => {
     navigate("/");
     return (
       <Layout>
-        <Progress isIndeterminate size="xs" />
+        <Spinner />
       </Layout>
     );
   }
@@ -137,11 +135,17 @@ const Todo: React.FC<TodoProps> = () => {
               align="center"
             >
               {todo.done === true ? (
-                <Checkbox isChecked={todo.done} onChange={() => handleSelected(index)}>
+                <Checkbox
+                  isChecked={todo.done}
+                  onChange={() => handleSelected(index)}
+                >
                   <Text as="del">{todo.task}</Text>
                 </Checkbox>
               ) : (
-                <Checkbox isChecked={todo.done} onChange={() => handleSelected(index)}>
+                <Checkbox
+                  isChecked={todo.done}
+                  onChange={() => handleSelected(index)}
+                >
                   <Text>{todo.task}</Text>
                 </Checkbox>
               )}
@@ -150,7 +154,7 @@ const Todo: React.FC<TodoProps> = () => {
           );
         })
       ) : (
-        <></>
+        <Spinner />
       )}
       <VStack pt="10rem">
         <Button
