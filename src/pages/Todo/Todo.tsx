@@ -12,6 +12,9 @@ import {
   Text,
   VStack
 } from "@chakra-ui/react";
+import {
+  signOut
+} from 'firebase/auth';
 import { collection, doc, getDoc, setDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -19,7 +22,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Layout from "../../components/Layout/Layout";
 import { auth, db } from "../../Firebase";
-
 interface TodoProps {}
 type Inputs = {
   todo: string;
@@ -105,7 +107,21 @@ const Todo: React.FC<TodoProps> = () => {
   };
 
   return (
-    <HStack justify="center" align="flex-start" gap="5rem">
+    <VStack justify="center" align="center" gap="5rem">
+      <Button
+      mt="2rem"
+        onClick={() => {
+          signOut(auth)
+            .then(() => {
+              // Sign-out successful.
+              console.log("Successful Log");
+            })
+            .catch((error) => {
+              // An error happened.
+              console.log(error);
+            });
+        }}
+      >Sign Out</Button>
       <VStack mt="10rem" px="1rem">
         <Card>
           <CardHeader>
@@ -190,7 +206,7 @@ const Todo: React.FC<TodoProps> = () => {
           <Spinner />
         )}
       </VStack>
-    </HStack>
+    </VStack>
   );
 };
 
